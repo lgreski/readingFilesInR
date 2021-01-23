@@ -25,12 +25,11 @@ if(!file.exists("./data/5%_PUMS_record_layout.xls")) {
 system.time(theInput <- readLines("./data/PUMS5_13.TXT",n = -1))
 recType <- sapply(theInput,substr,1,1)
 names(recType) <- NULL
-system.time(df <- data.frame(recType,dataRecord = theInput))
-splitData <- split(df,recType)
+splitData <- split(theInput,recType)
 
-# verify that total rows across split data frames equals number 
+# verify that total rows across split vectors equals number 
 # of elements in original file
-(nrow(splitData[[1]])+ nrow(splitData[[2]])) == length(theInput)
+(length(splitData[[1]])+ length(splitData[[2]])) == length(theInput)
 
 # read the code book person record columns through 5% value description
 library(readxl)
@@ -64,9 +63,13 @@ sum(codeBook$LEN)
 colNames <- codeBook$VARIABLE
 
 library(readr)
-system.time(df <- read_fwf(splitData[["P"]][["dataRecord"]],
+system.time(df <- read_fwf(splitData[["P"]],
                fwf_widths(colWidths,col_names = colNames)))
 
+# run a simple analysis
+df$AGE <- as.numeric(df$AGE)
+hist(df$AGE)
+summary(df$AGE)
 
 # legacy approach: write records to files and read the person file
 inFile <- "./data/PUMS5_13.TXT"
@@ -83,7 +86,4 @@ print(object.size(theInput),units="Mb")
 # read split raw data file
 system.time(df <- read_fwf("./data/PUMS_person_GA.txt",
                            fwf_widths(colWidths,col_names = colNames)))
-# run a simple analysis
-df$AGE <- as.numeric(df$AGE)
-hist(df$AGE)
-summary(df$AGE)
+
