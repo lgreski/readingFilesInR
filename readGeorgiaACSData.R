@@ -1,16 +1,17 @@
 #
 # read GA 2000 American Community Survey data 
 
-# create data directory if needed
+# create data directories if needed
 if(!dir.exists("./data")) dir.create("./data")
+if(!dir.exists("./data/Georgia")) dir.create("./data/Georgia")
 
 # download & extract Georgia file if necessary 
-system.time(if(!file.exists("./data/PUMS5_13.TXT")){
+system.time(if(!file.exists("./data/Georgia/PUMS5_13.TXT")){
   download.file("https://www2.census.gov/census_2000/datasets/PUMS/FivePercent/Georgia/all_Georgia.zip",
                 "./data/all_Georgia.zip",
                 method="curl",
                 mode="wb")
-   unzip("./data/all_Georgia.zip",exdir="./data")
+   unzip("./data/all_Georgia.zip",exdir="./data/Georgia")
 })
 
 # download record layout if necessary
@@ -22,7 +23,7 @@ if(!file.exists("./data/5%_PUMS_record_layout.xls")) {
 }
 
 # separate person records from household records
-system.time(theInput <- readLines("./data/PUMS5_13.TXT",n = -1))
+system.time(theInput <- readLines("./data/Georgia/PUMS5_13.TXT",n = -1))
 recType <- sapply(theInput,substr,1,1)
 names(recType) <- NULL
 splitData <- split(theInput,recType)
