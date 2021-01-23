@@ -72,6 +72,7 @@ hist(df$AGE)
 summary(df$AGE)
 
 # legacy approach: write records to files and read the person file
+# warning: this requires about 10 minutes of runtime 
 inFile <- "./data/PUMS5_13.TXT"
 outputPersonFile <- "./data/PUMS_person_GA.txt"
 outputHouseholdFile <- "./data/PUMS_household_GA.txt"
