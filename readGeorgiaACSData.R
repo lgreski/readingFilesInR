@@ -63,14 +63,9 @@ sum(codeBook$LEN)
 ## set column names to the VARIABLE column in codebook
 colNames <- codeBook$VARIABLE
 
-personData <- splitData[["P"]][["dataRecord"]]
 library(readr)
-system.time(df <- read_fwf(personData,
+system.time(df <- read_fwf(splitData[["P"]][["dataRecord"]],
                fwf_widths(colWidths,col_names = colNames)))
-
-# read split raw data file
-system.time(df <- read_fwf("./data/PUMS_person_GA.txt",
-                           fwf_widths(colWidths,col_names = colNames)))
 
 
 # legacy approach: write records to files and read the person file
@@ -85,3 +80,10 @@ system.time(theResult <- lapply(theInput,function(x) {
 }))
 print(object.size(theInput),units="Mb")
 
+# read split raw data file
+system.time(df <- read_fwf("./data/PUMS_person_GA.txt",
+                           fwf_widths(colWidths,col_names = colNames)))
+# run a simple analysis
+df$AGE <- as.numeric(df$AGE)
+hist(df$AGE)
+summary(df$AGE)
