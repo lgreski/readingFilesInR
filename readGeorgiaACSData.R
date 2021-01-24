@@ -73,19 +73,19 @@ hist(df$AGE)
 summary(df$AGE)
 
 # legacy approach: write records to files and read the person file
-# warning: this requires about 10 minutes of runtime 
-inFile <- "./data/PUMS5_13.TXT"
-outputPersonFile <- "./data/PUMS_person_GA.txt"
-outputHouseholdFile <- "./data/PUMS_household_GA.txt"
+# warning: this requires about 10 minutes of runtime for GA file
+inFile <- "./data/Georgia/PUMS5_13.TXT"
+outputPersonFile <- "./data/Georgia/PUMS_person.txt"
+outputHouseholdFile <- "./data/Georgia/PUMS_household.txt"
 
 system.time(theInput <- readLines(inFile,n = -1))
 system.time(theResult <- lapply(theInput,function(x) {
   if(substr(x,1,1)=="P") {cat(x,file=outputPersonFile,sep="\n",append=TRUE)}
   else {cat(x,file=outputHouseholdFile,sep="\n",append=TRUE)}
 }))
-print(object.size(theInput),units="Mb")
 
 # read split raw data file
-system.time(df <- read_fwf("./data/PUMS_person_GA.txt",
+system.time(df <- read_fwf("./data/Georgia/PUMS_person.txt",
                            fwf_widths(colWidths,col_names = colNames)))
 
+print(object.size(theInput),units="Mb")
