@@ -24,6 +24,14 @@ if(!file.exists("./data/5%_PUMS_record_layout.xls")) {
                 mode="wb")
 }
 
+# download record counts if necessary
+if(!file.exists("./data/5%_PUMS_pop_housing_counts.xls")) {
+  download.file("https://www2.census.gov/census_2000/datasets/PUMS/FivePercent/5%_PUMS_pop_housing_counts.xls",
+                "./data/5%_PUMS_pop_housing_counts.xls",
+                method="curl",
+                mode="wb")
+}
+
 # separate person records from household records
 system.time(theInput <- readLines("./data/Georgia/PUMS5_13.TXT",n = -1))
 recType <- sapply(theInput,substr,1,1)
