@@ -1,5 +1,7 @@
 #
 # read GA 2000 American Community Survey data 
+#
+# https://www2.census.gov/census_2000/datasets/PUMS/FivePercent
 
 # create data directories if needed
 if(!dir.exists("./data")) dir.create("./data")
